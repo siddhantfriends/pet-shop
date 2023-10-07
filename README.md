@@ -33,3 +33,4 @@ The repository directory will contain the Laravel application.
 * Nginx
 * PHP 8.2
 * MySQL 8.1
+* Laravel 10
