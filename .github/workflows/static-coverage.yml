@@ -1,0 +1,41 @@
+on: push
+name: Static Code Coverage
+jobs:
+  test:
+    name: Execute Larastan Static Code Coverage
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: repository/laravel
+    container:
+      image: kirschbaumdevelopment/laravel-test-runner:8.2
+ 
+    services:
+      mysql:
+        image: mysql:8.1.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_DATABASE: test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+ 
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 1
+ 
+    - name: Install Composer Dependencies
+      run: composer install --no-scripts
+ 
+    - name: Copy DotEnv
+      run: cp .env.test .env
+
+    - name: Generate Application Key
+      run: php artisan key:generate
+
+    - name: Run Migrations
+      run: php artisan migrate --no-interaction --ansi
+ 
+    - name: Run Larastan Static Code Coverage
+      run: ./vendor/bin/phpstan analyse --no-interaction --ansi
