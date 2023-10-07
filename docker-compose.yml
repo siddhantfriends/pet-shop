@@ -4,3 +4,6 @@ services:
     build: ./build/nginx
     ports:
       - 80:80
+
+  php8:
+    build: ./build/php8
