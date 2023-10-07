@@ -2,6 +2,7 @@ version: '3'
 services:
   nginx:
     build: ./build/nginx
+    working_dir: /var/www/html/laravel
     volumes:
       - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./config/nginx/conf.d:/etc/nginx/conf.d
@@ -16,6 +17,7 @@ services:
 
   php8:
     build: ./build/php8
+    working_dir: /var/www/html/laravel
     volumes:
       - ./config/php8/php.ini:/usr/local/etc/php/php.ini
       - ./repository:/var/www/html
@@ -24,6 +26,7 @@ services:
 
   mysql:
     build: ./build/mysql
+    working_dir: /var/www/html/laravel
     volumes:
       - ./data/mysql:/var/lib/mysql
       - ./repository:/var/www/html
