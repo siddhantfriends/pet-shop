@@ -2,6 +2,7 @@
 
 <p align="center">
   <a href="https://github.com/siddhantfriends/pet-shop/actions"><img src="https://github.com/siddhantfriends/pet-shop/workflows/Laravel%20Tests/badge.svg" alt="Laravel Tests Status"></a>
+  <a href="https://github.com/siddhantfriends/pet-shop/actions"><img src="https://github.com/siddhantfriends/pet-shop/workflows/Static%20Code%20Coverage/badge.svg" alt="Larastan Static Code Coverage Status"></a>
 </p>
 
 This repository contains APIs for the Pet Shop (eCommerce). The project uses docker compose to minimise the setup process. Each directory in the project signifies a single function and is mounted in the appropriate containers.
@@ -38,3 +39,8 @@ The repository directory will contain the Laravel application.
 * PHP 8.2
 * MySQL 8.1
 * Laravel 10
+
+## Continuous Integration
+
+* Laravel Tests
+* Larastan Static Code Analysis
