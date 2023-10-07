@@ -4,6 +4,25 @@ services:
     build: ./build/nginx
     ports:
       - 80:80
+    networks: 
+      - default
 
   php8:
     build: ./build/php8
+    networks: 
+      - default
+
+  mysql:
+    build: ./build/mysql
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    networks: 
+      - default
+
+networks:
+  default:
+    driver: bridge
