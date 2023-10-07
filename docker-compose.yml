@@ -13,6 +13,7 @@ services:
       default:
         aliases:
           - phpinfo8.test
+          - api.pet-shop.test
 
   php8:
     build: ./build/php8
