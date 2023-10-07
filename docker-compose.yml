@@ -13,6 +13,8 @@ services:
 
   php8:
     build: ./build/php8
+    volumes:
+      - ./config/php8/php.ini:/usr/local/etc/php/php.ini
     networks:
       - default
 
