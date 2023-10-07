@@ -5,8 +5,10 @@ namespace App\Providers;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Symfony\Component\Finder\SplFileInfo;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -29,6 +31,14 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         $this->routes(function () {
+            $routes = File::files(base_path('routes/api'));
+
+            array_walk($routes, function (SplFileInfo $route) {
+                Route::middleware('api')
+                    ->prefix('api/v1')
+                    ->group(base_path('routes/api/' . $route->getFilename()));
+            });
+
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
