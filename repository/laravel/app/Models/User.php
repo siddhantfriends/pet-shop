@@ -75,4 +75,14 @@ class User extends Authenticatable
     {
         return $this->is_admin;
     }
+
+    /**
+     * Returns true if the user is NOT an admin else false.
+     *
+     * @return bool
+     */
+    public function isNotAdmin(): bool
+    {
+        return !$this->is_admin;
+    }
 }
