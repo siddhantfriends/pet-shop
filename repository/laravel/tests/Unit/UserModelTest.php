@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class UserModelTest extends TestCase
 {
@@ -15,10 +15,10 @@ class UserModelTest extends TestCase
      *
      * Checks if user is an admin
      */
-    public function user_is_admin(): void
+    public function user_is_an_admin(): void
     {
         $user = User::factory()->admin()->create();
 
-        $this->assertTrue(User::isAdmin());
+        $this->assertTrue($user->isAdmin());
     }
 }
