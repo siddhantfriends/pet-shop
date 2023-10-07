@@ -3,6 +3,7 @@
 <p align="center">
   <a href="https://github.com/siddhantfriends/pet-shop/actions"><img src="https://github.com/siddhantfriends/pet-shop/workflows/Laravel%20Tests/badge.svg" alt="Laravel Tests Status"></a>
   <a href="https://github.com/siddhantfriends/pet-shop/actions"><img src="https://github.com/siddhantfriends/pet-shop/workflows/Static%20Code%20Coverage/badge.svg" alt="Larastan Static Code Coverage Status"></a>
+  <a href="https://github.com/siddhantfriends/pet-shop/actions"><img src="https://github.com/siddhantfriends/pet-shop/workflows/PHP%20Insights%20Code%20Quality/badge.svg" alt="PHP Insights Code Quality"></a>
 </p>
 
 This repository contains APIs for the Pet Shop (eCommerce). The project uses docker compose to minimise the setup process. Each directory in the project signifies a single function and is mounted in the appropriate containers.
