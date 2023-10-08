@@ -36,17 +36,6 @@ class StoreUserRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator): void
     {
-        $response = response()->json(
-            [
-                'success' => 0,
-                'data' => [],
-                'error' => 'Failed Validation',
-                'errors' => $validator->errors(),
-                'trace' => [],
-            ],
-            422
-        );
-
-        throw new ValidationException($validator, $response);
+        throw new ValidationException($validator);
     }
 }

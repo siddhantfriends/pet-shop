@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
@@ -39,7 +40,7 @@ class CreateUserTest extends TestCase
             )
         );
 
-        $response->assertStatus(200);
+        $response->assertStatus(Response::HTTP_OK);
     }
 
     /**
@@ -51,7 +52,8 @@ class CreateUserTest extends TestCase
     {
         $response = $this->create_user_account_without('first_name');
 
-        $response->assertJsonValidationErrorFor('first_name');
+        $response->assertJsonValidationErrorFor('first_name')
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
