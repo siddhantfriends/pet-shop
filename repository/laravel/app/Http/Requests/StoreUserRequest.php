@@ -2,13 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Http\Resources\FailedValidationResource;
-use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Contracts\Validation\ValidationRule;
 
 class StoreUserRequest extends FormRequest
 {
@@ -34,20 +32,20 @@ class StoreUserRequest extends FormRequest
     /**
      * Handle a failed validation attempt.
      *
-     * @param Validator $validator
-     * @return void
-     *
      * @throws ValidationException
      */
     protected function failedValidation(Validator $validator): void
     {
-        $response = response()->json([
-            'success' => 0,
-            'data' => [],
-            'error' => 'Failed Validation',
-            'errors' => $validator->errors(),
-            'trace' => [],
-        ], 422);
+        $response = response()->json(
+            [
+                'success' => 0,
+                'data' => [],
+                'error' => 'Failed Validation',
+                'errors' => $validator->errors(),
+                'trace' => [],
+            ],
+            422
+        );
 
         throw new ValidationException($validator, $response);
     }
