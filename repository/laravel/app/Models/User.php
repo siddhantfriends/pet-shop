@@ -19,7 +19,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'uuid',
         'first_name',
         'last_name',
         'is_admin',
@@ -40,7 +39,6 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
     ];
 
     /**
@@ -55,21 +53,17 @@ class User extends Authenticatable
 
     /**
      * Bootstrap the model and its traits.
-     *
-     * @return void
      */
     protected static function boot(): void
     {
         parent::boot();
-        static::creating(function(User $user) {
+        static::creating(function (User $user): void {
             $user->setAttribute('uuid', Str::uuid());
         });
     }
 
     /**
      * Returns true if the user is an admin else false.
-     *
-     * @return bool
      */
     public function isAdmin(): bool
     {
@@ -78,8 +72,6 @@ class User extends Authenticatable
 
     /**
      * Returns true if the user is NOT an admin else false.
-     *
-     * @return bool
      */
     public function isNotAdmin(): bool
     {
