@@ -2,9 +2,13 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @mixin User;
+ */
 class StoreUserResource extends JsonResource
 {
     /**
@@ -31,7 +35,7 @@ class StoreUserResource extends JsonResource
 
     /**
      * Get any additional data that should be returned with the resource array.
-     * 
+     *
      * @return array<string, array|object|string|numeric|null>
      */
     public function with(Request $request)
