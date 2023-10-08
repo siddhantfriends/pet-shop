@@ -38,7 +38,7 @@ class StoreUserResource extends JsonResource
      *
      * @return array<string, array|object|string|numeric|null>
      */
-    public function with(Request $request)
+    public function with(Request $request): array
     {
         return [
             'success' => 1,
