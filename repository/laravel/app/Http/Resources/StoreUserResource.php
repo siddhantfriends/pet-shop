@@ -13,7 +13,7 @@ class StoreUserResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @return array<string, array>
+     * @return array<string, array|string>
      */
     public function toArray(Request $request): array
     {
