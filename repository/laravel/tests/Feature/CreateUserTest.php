@@ -3,9 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Arr;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class CreateUserTest extends TestCase
@@ -18,15 +17,74 @@ class CreateUserTest extends TestCase
     public function create_a_user_account(): void
     {
         $user = User::factory()->make()->toArray();
-        $user = Arr::only($user, [
-            'first_name', 'last_name', 'email', 'address', 'phone_number',
-        ]);
+        $user = Arr::only(
+            $user,
+            [
+                'first_name',
+                'last_name',
+                'email',
+                'address',
+                'phone_number',
+            ]
+        );
 
-        $response = $this->post('/api/v1/users/create', array_merge($user, [
-            'password' => 'password',
-            'password_confirmation' => 'password',
-        ]));
+        $response = $this->post(
+            '/api/v1/users/create',
+            array_merge(
+                $user,
+                [
+                    'password' => 'password',
+                    'password_confirmation' => 'password',
+                ]
+            )
+        );
 
         $response->assertStatus(200);
+    }
+
+    /**
+     * @test
+     *
+     * Cannot create user account without first name
+     */
+    public function cannot_create_user_account_without_first_name()
+    {
+        $response = $this->create_user_account_without('first_name');
+
+        $response->assertJsonValidationErrorFor('first_name');
+    }
+
+    /**
+     * Creates user account without the given parameter
+     */
+    private function create_user_account_without(string $param): TestResponse
+    {
+        $user = User::factory()->make()->toArray();
+        $user = Arr::except(
+            Arr::only(
+                $user,
+                [
+                    'first_name',
+                    'last_name',
+                    'email',
+                    'address',
+                    'phone_number',
+                ]
+            ),
+            $param
+        );
+
+        $response = $this->post(
+            '/api/v1/users/create',
+            array_merge(
+                $user,
+                [
+                    'password' => 'password',
+                    'password_confirmation' => 'password',
+                ]
+            )
+        );
+
+        return $response;
     }
 }
