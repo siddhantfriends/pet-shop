@@ -25,7 +25,7 @@ class StoreUserRequest extends FormRequest
             'address' => ['required', 'string'],
             'phone_number' => ['required', 'string'],
             'avatar' => ['nullable', 'string', 'exists:files,uuid'],
-            'is_marketing' => ['nullable', 'boolean'],
+            'is_marketing' => ['boolean'],
         ];
     }
 

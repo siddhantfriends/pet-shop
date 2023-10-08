@@ -30,7 +30,7 @@ class CreateUserTest extends TestCase
         );
 
         $response = $this->post(
-            '/api/v1/users/create',
+            route('user.create'),
             array_merge(
                 $user,
                 [
@@ -93,7 +93,7 @@ class CreateUserTest extends TestCase
         ]);
 
         $response = $this->post(
-            '/api/v1/users/create',
+            route('user.create'),
             Arr::except($user, $param),
         );
 
