@@ -46,14 +46,26 @@ class CreateUserTest extends TestCase
     /**
      * @test
      *
-     * Cannot create user account without first name
+     * Cannot create user account without mandatory fields
      */
-    public function cannot_create_user_account_without_first_name()
+    public function cannot_create_user_account_without_mandatory_fields()
     {
-        $response = $this->create_user_account_without('first_name');
+        $fields = [
+            'first_name',
+            'last_name',
+            'email',
+            'address',
+            'phone_number',
+            'password',
+            'password_confirmation',
+        ];
 
-        $response->assertJsonValidationErrorFor('first_name')
-            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        array_walk($fields, function ($field) {
+            $response = $this->create_user_account_without($field);
+
+            $response->assertJsonValidationErrorFor($field)
+                ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+        });
     }
 
     /**
