@@ -50,20 +50,20 @@ class CreateUserTest extends TestCase
      */
     public function cannot_create_user_account_without_mandatory_fields()
     {
+        // field => error field
         $fields = [
-            'first_name',
-            'last_name',
-            'email',
-            'address',
-            'phone_number',
-            'password',
-            'password_confirmation',
+            'first_name' => 'first_name',
+            'last_name' => 'last_name',
+            'email' => 'email',
+            'address' => 'address',
+            'phone_number' => 'phone_number',
+            'password' => 'password',
+            'password_confirmation' => 'password',
         ];
 
-        array_walk($fields, function ($field) {
-            $response = $this->create_user_account_without($field);
-
-            $response->assertJsonValidationErrorFor($field)
+        array_walk($fields, function ($error, $field) {
+            $this->create_user_account_without($field)
+                ->assertJsonValidationErrorFor($error)
                 ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
         });
     }
@@ -74,29 +74,23 @@ class CreateUserTest extends TestCase
     private function create_user_account_without(string $param): TestResponse
     {
         $user = User::factory()->make()->toArray();
-        $user = Arr::except(
-            Arr::only(
-                $user,
-                [
-                    'first_name',
-                    'last_name',
-                    'email',
-                    'address',
-                    'phone_number',
-                ]
-            ),
-            $param
-        );
+
+        $user = Arr::only($user, [
+            'first_name',
+            'last_name',
+            'email',
+            'address',
+            'phone_number',
+        ]);
+
+        $user = array_merge($user, [
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ]);
 
         $response = $this->post(
             '/api/v1/users/create',
-            array_merge(
-                $user,
-                [
-                    'password' => 'password',
-                    'password_confirmation' => 'password',
-                ]
-            )
+            Arr::except($user, $param),
         );
 
         return $response;
