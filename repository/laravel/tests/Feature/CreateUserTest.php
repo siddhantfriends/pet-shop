@@ -40,6 +40,10 @@ class CreateUserTest extends TestCase
             )
         );
 
+        $response->assertHeader('access-control-allow-origin', '*')
+            ->assertHeader('cache-control', 'no-cache, private')
+            ->assertHeader('content-type', 'application/json');
+
         $response->assertStatus(Response::HTTP_OK);
     }
 
