@@ -13,12 +13,21 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('uuid');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->boolean('is_admin')->default(false);
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->rememberToken();
+            $table->foreignId('avatar')->nullable()->constrained(
+                table: 'files', indexName: 'files_uuid'
+            );
+            $table->string('address');
+            $table->string('phone_number');
+            $table->boolean('is_marketing')->default(false);
             $table->timestamps();
+            $table->timestamp('last_login_at')->nullable();
         });
     }
 
