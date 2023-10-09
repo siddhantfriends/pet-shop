@@ -34,5 +34,15 @@ class AppServiceProvider extends ServiceProvider
                 'trace' => [],
             ], $status);
         });
+
+        JsonResponse::macro('response', function(array $data): array {
+            return [
+                'success' => 1,
+                'data' => $data,
+                'error' => null,
+                'errors' => [],
+                'extra' => [],
+            ];
+        });
     }
 }

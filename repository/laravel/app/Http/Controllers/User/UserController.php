@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\User;
+use App\Http\Service\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Resources\User\StoreUserResource;
@@ -100,15 +100,9 @@ class UserController extends Controller
      *
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request): JsonResource
+    public function store(StoreUserRequest $request, UserService $service): JsonResource
     {
-        $validated = $request->safe()->merge(
-            [
-                'is_admin' => false,
-            ]
-        );
-
-        $user = User::create($validated->toArray());
+        $user = $service->createUser($request);
 
         return new StoreUserResource($user->fresh());
     }

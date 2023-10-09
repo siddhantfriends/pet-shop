@@ -3,8 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Support\Str;
 use Illuminate\Notifications\Notifiable;
+use App\Http\Service\GenerateUUIDService;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -57,9 +58,7 @@ class User extends Authenticatable
     protected static function boot(): void
     {
         parent::boot();
-        static::creating(function (User $user): void {
-            $user->setAttribute('uuid', Str::uuid());
-        });
+        app(GenerateUUIDService::class)->handle(new User());
     }
 
     /**
@@ -76,5 +75,10 @@ class User extends Authenticatable
     public function isNotAdmin(): bool
     {
         return !$this->is_admin;
+    }
+
+    public function avatar(): HasOne
+    {
+        return $this->hasOne(File::class, 'id', 'avatar');
     }
 }

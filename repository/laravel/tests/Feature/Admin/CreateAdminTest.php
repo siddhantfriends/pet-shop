@@ -20,7 +20,7 @@ class CreateAdminTest extends TestCase
      */
     public function create_an_admin_user_account(): void
     {
-        $user = User::factory()->make()->toArray();
+        $user = User::factory()->admin()->make()->toArray();
         $user = Arr::only(
             $user,
             [
