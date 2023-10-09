@@ -3,10 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\ValidationException;
 
 class FailedValidation extends Exception
 {
@@ -21,7 +18,7 @@ class FailedValidation extends Exception
     /**
      * Render the exception as a JSON response.
      */
-    public function render(Request $request): JsonResponse
+    public function render(): JsonResponse
     {
         return JsonResponse::error($this->getMessage(), $this->getPrevious()->validator->errors(), $this->getCode());
     }

@@ -4,8 +4,6 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
 class RouteNotFound extends Exception
@@ -26,7 +24,7 @@ class RouteNotFound extends Exception
     /**
      * Render the exception as a JSON response.
      */
-    public function render(Request $request): JsonResponse
+    public function render(): JsonResponse
     {
         return JsonResponse::error($this->getMessage(), status: $this->getCode());
     }

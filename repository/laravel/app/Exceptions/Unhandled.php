@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class Unhandled extends Exception
@@ -25,7 +24,7 @@ class Unhandled extends Exception
     /**
      * Render the exception as an JSON response.
      */
-    public function render(Request $request): JsonResponse
+    public function render(): JsonResponse
     {
         return JsonResponse::error($this->getMessage(), status: $this->getCode());
     }
