@@ -68,7 +68,11 @@ class AdminController extends Controller
      *                     type="string",
      *                     enum={"0", "1"},
      *                 ),
-     *                 required={"first_name", "last_name", "email", "password", "password_confirmation", "avatar", "address", "phone_number"}
+     *                 required={
+     *                      "first_name", "last_name", "email",
+     *                      "password", "password_confirmation",
+     *                      "avatar", "address", "phone_number"
+     *                 }
      *             )
      *         )
      *     ),
