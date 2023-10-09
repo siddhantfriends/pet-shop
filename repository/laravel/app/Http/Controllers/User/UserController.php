@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Models\User;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Resources\StoreUserResource;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Resources\User\StoreUserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserController extends Controller
