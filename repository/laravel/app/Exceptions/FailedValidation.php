@@ -3,22 +3,26 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class FailedValidation extends Exception
 {
-    public function __invoke(ValidationException $e): JsonResponse
+    /**
+     * Report the exception.
+     */
+    public function report(): void
     {
-        return response()->json(
-            [
-                'success' => 0,
-                'data' => [],
-                'error' => $this->getMessage(),
-                'errors' => $e->validator->errors(),
-                'trace' => [],
-            ],
-            $this->getCode()
-        );
+        // disable logging for failed validation
+    }
+
+    /**
+     * Render the exception as a JSON response.
+     */
+    public function render(Request $request): JsonResponse
+    {
+        return JsonResponse::error($this->getMessage(), $this->getPrevious()->validator->errors(), $this->getCode());
     }
 }
