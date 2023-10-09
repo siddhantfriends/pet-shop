@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Admin;
 
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Contracts\Validation\ValidationRule;
 
-class StoreUserRequest extends FormRequest
+class StoreAdminRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<string|object>|string>
      */
     public function rules(): array
     {
@@ -24,7 +23,7 @@ class StoreUserRequest extends FormRequest
             'password' => ['required', 'confirmed', Password::defaults()],
             'address' => ['required', 'string'],
             'phone_number' => ['required', 'string'],
-            'avatar' => ['nullable', 'string', 'exists:files,uuid'],
+            'avatar' => ['required', 'uuid', 'exists:files,uuid'],
             'is_marketing' => ['boolean'],
         ];
     }

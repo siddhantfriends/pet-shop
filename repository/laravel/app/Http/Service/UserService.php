@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Service;
+
+use App\Models\User;
+use App\Http\Requests\User\StoreUserRequest;
+use App\Http\Requests\Admin\StoreAdminRequest;
+
+/**
+ * The service is responsible for storing users of user and admin type.
+ */
+class UserService
+{
+    /**
+     * The method creates a user
+     */
+    public function createUser(StoreUserRequest|StoreAdminRequest $request): User
+    {
+        $validated = $request->safe()->merge(
+            [
+                'is_admin' => $this->isAdmin($request),
+            ]
+        );
+
+        return User::create($validated->toArray());
+    }
+
+    /**
+     * The method returns true for admin else false
+     */
+    public function isAdmin(StoreUserRequest|StoreAdminRequest $request): bool
+    {
+        return match ($request::class) {
+            StoreUserRequest::class => false,
+            StoreAdminRequest::class => true,
+            default => false,
+        };
+    }
+}

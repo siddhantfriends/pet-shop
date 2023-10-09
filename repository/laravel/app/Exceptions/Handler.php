@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
+use Exception;
 use Illuminate\Http\Response;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -23,6 +26,16 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->renderable(new FailedValidation('Failed Validation', Response::HTTP_UNPROCESSABLE_ENTITY));
+        $this->renderable(function (ValidationException $e): void {
+            throw new FailedValidation('Failed Validation', Response::HTTP_UNPROCESSABLE_ENTITY, $e);
+        });
+
+        $this->renderable(function (NotFoundHttpException $e): void {
+            throw new RouteNotFound('Invalid URI', Response::HTTP_NOT_FOUND, $e);
+        });
+
+        $this->renderable(function (Exception $e): void {
+            throw new Unhandled('Server Error', Response::HTTP_INTERNAL_SERVER_ERROR, $e);
+        });
     }
 }

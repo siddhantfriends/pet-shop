@@ -1,15 +1,18 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\User;
 
 use App\Models\User;
-use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Response;
 use Illuminate\Testing\TestResponse;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class CreateUserTest extends TestCase
 {
+    use RefreshDatabase;
+
     /**
      * @test
      *
