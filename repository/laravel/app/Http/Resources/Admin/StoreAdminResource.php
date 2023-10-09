@@ -26,7 +26,6 @@ class StoreAdminResource extends JsonResource
             'avatar' => $this->avatar,
             'address' => $this->address,
             'phone_number' => $this->phone_number,
-            'is_marketing' => $this->is_marketing,
             'updated_at' => $this->updated_at,
             'created_at' => $this->created_at,
             'token' => 'placeholder for token',
