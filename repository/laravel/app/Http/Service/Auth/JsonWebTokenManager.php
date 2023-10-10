@@ -64,13 +64,14 @@ class JsonWebTokenManager implements JsonWebToken
         $now = new DateTimeImmutable();
 
         return !$parsedToken->isExpired($now) &&
+            $parsedToken->claims()->has('user_uuid') &&
             $this->validator->validate(
                 $parsedToken,
                 new IssuedBy(config('app.url')),
             );
     }
 
-    private function parseToken(string $token): UnencryptedToken
+    public function parseToken(string $token): UnencryptedToken
     {
         try {
             return $this->parser->parse($token);

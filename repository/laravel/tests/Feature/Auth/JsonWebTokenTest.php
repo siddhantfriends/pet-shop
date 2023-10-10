@@ -98,6 +98,18 @@ class JsonWebTokenTest extends TestCase
         $this->assertFalse($validated);
     }
 
+    /**
+     * Ensures user_uuid is set with token
+     *
+     * @test
+     */
+    public function token_has_user_uuid(): void
+    {
+        $token = JsonWebToken::parseToken($this->token);
+
+        $this->assertNotEmpty($token->claims()->get('user_uuid'));
+    }
+
     private function issueToken(): string
     {
         return JsonWebToken::issue(User::first());
