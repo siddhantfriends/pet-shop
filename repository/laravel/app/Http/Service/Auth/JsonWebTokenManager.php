@@ -10,7 +10,7 @@ use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use App\Http\Contracts\Auth\JsonWebToken;
 
-class JWTService implements JsonWebToken
+class JsonWebTokenManager implements JsonWebToken
 {
     protected Configuration $config;
     protected Builder $builder;
