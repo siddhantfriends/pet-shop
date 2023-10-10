@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Service\UserService;
 use App\Http\Controllers\Controller;
+use App\Http\Contracts\Auth\JsonWebToken;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Resources\User\StoreUserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -100,10 +101,10 @@ class UserController extends Controller
      *
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request, UserService $service): JsonResource
+    public function store(StoreUserRequest $request, UserService $service, JsonWebToken $jsonWebToken): JsonResource
     {
         $user = $service->createUser($request);
 
-        return new StoreUserResource($user->fresh());
+        return new StoreUserResource($user->fresh(), $jsonWebToken->issue($user));
     }
 }
