@@ -6,6 +6,7 @@ use App\Facades\JsonWebToken;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Validation\UnauthorizedException;
 use Tests\TestCase;
 
 class JsonWebTokenTest extends TestCase
@@ -28,7 +29,8 @@ class JsonWebTokenTest extends TestCase
      *
      * @test
      */
-    public function can_issue_json_web_token() {
+    public function can_issue_json_web_token(): void
+    {
         $this->assertNotEmpty($this->token);
     }
 
@@ -37,10 +39,25 @@ class JsonWebTokenTest extends TestCase
      *
      * @test
      */
-    public function can_parse_json_web_token() {
+    public function can_parse_json_web_token(): void
+    {
         $parsed = JsonWebToken::parse($this->token);
 
         $this->assertTrue($parsed);
+    }
+
+    /**
+     * check if parser fails on invalid token
+     *
+     * @test
+     */
+    public function parser_fails_on_invalid_token(): void
+    {
+        $parsed = 'invalid token';
+
+        $this->assertThrows(function () use ($parsed) {
+            JsonWebToken::parse($parsed);
+        }, UnauthorizedException::class);
     }
 
     private function issueToken(): string

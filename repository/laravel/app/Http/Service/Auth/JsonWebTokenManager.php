@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\UnencryptedToken;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Encoding\JoseEncoder;
@@ -14,7 +15,7 @@ use App\Http\Contracts\Auth\JsonWebToken;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Token\UnsupportedHeaderFound;
-use Lcobucci\JWT\UnencryptedToken;
+use Illuminate\Validation\UnauthorizedException;
 
 class JsonWebTokenManager implements JsonWebToken
 {
@@ -49,13 +50,11 @@ class JsonWebTokenManager implements JsonWebToken
         try {
             $parser = new Parser(new JoseEncoder());
             $unencrypted = $parser->parse($token);
-
-            assert($unencrypted instanceof UnencryptedToken);
-
-            return true;
         } catch (CannotDecodeContent | InvalidTokenStructure | UnsupportedHeaderFound $e) {
-            return false;
+            throw new UnauthorizedException(previous: $e);
         }
+
+        return assert($unencrypted instanceof UnencryptedToken);
     }
 
     public function validate(): void
