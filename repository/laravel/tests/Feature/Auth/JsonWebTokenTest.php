@@ -84,6 +84,20 @@ class JsonWebTokenTest extends TestCase
         $this->assertFalse($validated);
     }
 
+    /**
+     * Validation fails for invalid server domains
+     *
+     * @test
+     */
+    public function validation_fails_for_invalid_server_domain(): void
+    {
+        $invalidServerDomain = JsonWebToken::issue(User::first(), issuedBy: 'https://example.com');
+
+        $validated = JsonWebToken::validate($invalidServerDomain);
+
+        $this->assertFalse($validated);
+    }
+
     private function issueToken(): string
     {
         return JsonWebToken::issue(User::first());
