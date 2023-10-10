@@ -74,7 +74,11 @@ class JsonWebTokenManager implements JsonWebToken
     public function parseToken(string $token): UnencryptedToken
     {
         try {
-            return $this->parser->parse($token);
+            $parsedToken = $this->parser->parse($token);
+
+            assert($parsedToken instanceof UnencryptedToken);
+
+            return $parsedToken;
         } catch (CannotDecodeContent | InvalidTokenStructure | UnsupportedHeaderFound $e) {
             throw new UnauthorizedException(previous: $e);
         }
