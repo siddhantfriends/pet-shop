@@ -70,6 +70,20 @@ class JsonWebTokenTest extends TestCase
         $this->assertTrue(JsonWebToken::validate($this->token));
     }
 
+    /**
+     * Validate should return false for expired tokens
+     *
+     * @test
+     */
+    public function validate_returns_false_for_expired_token(): void
+    {
+        $expiredToken = JsonWebToken::issue(User::first(), expiresAfter: '-10 minutes');
+
+        $validated = JsonWebToken::validate($expiredToken);
+
+        $this->assertFalse($validated);
+    }
+
     private function issueToken(): string
     {
         return JsonWebToken::issue(User::first());

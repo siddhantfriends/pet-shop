@@ -39,12 +39,12 @@ class JsonWebTokenManager implements JsonWebToken
         $this->validator = new Validator();
     }
 
-    public function issue(User $user): string
+    public function issue(User $user, ?string $issuedBy = null, ?string $expiresAfter = null): string
     {
         $now = new DateTimeImmutable();
 
-        $token = $this->builder->issuedBy(config('app.url'))
-            ->expiresAt($now->modify(config('jwt.expires_after')))
+        $token = $this->builder->issuedBy($issuedBy ?? config('app.url'))
+            ->expiresAt($now->modify($expiresAfter ?? config('jwt.expires_after')))
             ->withClaim('user_uuid', $user->uuid)
             ->getToken($this->config->signer(), $this->config->signingKey());
 
