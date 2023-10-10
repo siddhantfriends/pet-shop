@@ -19,10 +19,10 @@ class FileFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name,
-            'path' => fake()->filePath(),
+            'name' => 'default.webp',
+            'path' => 'avatar/default.webp',
             'size' => '2M',
-            'type' => 'jpg',
+            'type' => 'webp',
         ];
     }
 
@@ -30,6 +30,12 @@ class FileFactory extends Factory
     public function png(): array {
         return [
             'type' => 'png',
+        ];
+    }
+
+    public function jpg(): array {
+        return [
+            'type' => 'jpg',
         ];
     }
 }

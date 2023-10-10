@@ -1,0 +1,5 @@
+*
+!.gitignore
+
+# Include the default avatar in Source Control
+!default.webp

@@ -1,2 +1,5 @@
 *
 !.gitignore
+
+# Include the avatar folder in source control
+!avatar/
