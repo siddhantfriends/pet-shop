@@ -6,17 +6,14 @@ use App\Models\User;
 use DateTimeImmutable;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Configuration;
-use Lcobucci\JWT\Signer\OpenSSL;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use App\Http\Contracts\Auth\JsonWebToken;
 
 class JWTService implements JsonWebToken
 {
-    protected OpenSSL $algorithm;
     protected Configuration $config;
     protected Builder $builder;
-    protected InMemory $signingKey;
 
     public function __construct()
     {
