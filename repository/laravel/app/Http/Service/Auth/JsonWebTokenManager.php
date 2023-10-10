@@ -11,16 +11,20 @@ use Lcobucci\JWT\UnencryptedToken;
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Signer\Key\InMemory;
 use Lcobucci\JWT\Encoding\JoseEncoder;
+use Lcobucci\JWT\Validation\Validator;
 use App\Http\Contracts\Auth\JsonWebToken;
 use Lcobucci\JWT\Token\InvalidTokenStructure;
 use Lcobucci\JWT\Encoding\CannotDecodeContent;
 use Lcobucci\JWT\Token\UnsupportedHeaderFound;
 use Illuminate\Validation\UnauthorizedException;
+use Lcobucci\JWT\Validation\Constraint\IssuedBy;
 
 class JsonWebTokenManager implements JsonWebToken
 {
     protected Configuration $config;
     protected Builder $builder;
+    protected Parser $parser;
+    protected Validator $validator;
 
     public function __construct()
     {
@@ -31,6 +35,8 @@ class JsonWebTokenManager implements JsonWebToken
         );
 
         $this->builder = $this->config->builder();
+        $this->parser = new Parser(new JoseEncoder());
+        $this->validator = new Validator();
     }
 
     public function issue(User $user): string
@@ -47,18 +53,29 @@ class JsonWebTokenManager implements JsonWebToken
 
     public function parse(string $token): bool
     {
+        $parsedToken = $this->parseToken($token);
+        return assert($parsedToken instanceof UnencryptedToken);
+    }
+
+    public function validate(string $token): bool
+    {
+        $parsedToken = $this->parseToken($token);
+
+        $now = new DateTimeImmutable();
+
+        return !$parsedToken->isExpired($now) &&
+            $this->validator->validate(
+                $parsedToken,
+                new IssuedBy(config('app.url')),
+            );
+    }
+
+    private function parseToken(string $token): UnencryptedToken
+    {
         try {
-            $parser = new Parser(new JoseEncoder());
-            $unencrypted = $parser->parse($token);
+            return $this->parser->parse($token);
         } catch (CannotDecodeContent | InvalidTokenStructure | UnsupportedHeaderFound $e) {
             throw new UnauthorizedException(previous: $e);
         }
-
-        return assert($unencrypted instanceof UnencryptedToken);
-    }
-
-    public function validate(): void
-    {
-        //
     }
 }

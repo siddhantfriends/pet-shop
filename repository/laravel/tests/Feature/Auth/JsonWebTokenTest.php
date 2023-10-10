@@ -60,6 +60,16 @@ class JsonWebTokenTest extends TestCase
         }, UnauthorizedException::class);
     }
 
+    /**
+     * check if the token can be verified
+     *
+     * @test
+     */
+    public function can_validate_json_web_token(): void
+    {
+        $this->assertTrue(JsonWebToken::validate($this->token));
+    }
+
     private function issueToken(): string
     {
         return JsonWebToken::issue(User::first());
