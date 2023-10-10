@@ -10,12 +10,16 @@ class TrustProxies extends Middleware
     /**
      * The trusted proxies for this application.
      *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      * @var array<int, string>|string|null
      */
     protected $proxies = null;
 
     /**
      * The headers that should be used to detect proxies.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+     * @var int
      */
     protected $headers =
         Request::HEADER_X_FORWARDED_FOR |

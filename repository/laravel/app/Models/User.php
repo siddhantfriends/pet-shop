@@ -17,6 +17,7 @@ class User extends Authenticatable
     /**
      * The attributes that are mass assignable.
      *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      * @var array<int, string>
      */
     protected $fillable = [
@@ -36,6 +37,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for serialization.
      *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      * @var array<int, string>
      */
     protected $hidden = [
@@ -45,6 +47,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast.
      *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      * @var array<string, string>
      */
     protected $casts = [
