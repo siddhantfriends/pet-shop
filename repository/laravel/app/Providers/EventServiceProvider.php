@@ -2,6 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\LoggedIn;
+use App\Events\TokenLastUsed;
+use App\Listeners\UpdateJwtTokenLastUsedAtNotification;
+use App\Listeners\UpdateOrStoreJwtTokenNotification;
+use App\Listeners\UpdateUserLastLoginAtNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +22,13 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        LoggedIn::class => [
+            UpdateUserLastLoginAtNotification::class,
+            UpdateOrStoreJwtTokenNotification::class,
+        ],
+        TokenLastUsed::class => [
+            UpdateJwtTokenLastUsedAtNotification::class,
         ],
     ];
 

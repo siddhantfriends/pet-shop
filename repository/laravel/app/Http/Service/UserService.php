@@ -2,7 +2,10 @@
 
 namespace App\Http\Service;
 
+use Carbon\Carbon;
 use App\Models\User;
+use App\Events\LoggedIn;
+use App\Facades\JsonWebToken;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\Admin\StoreAdminRequest;
 
@@ -34,5 +37,15 @@ class UserService
             StoreAdminRequest::class => true,
             default => false,
         };
+    }
+
+    public function issueLoginToken(): string
+    {
+        $user = request()->user();
+        $token = JsonWebToken::issue($user);
+
+        LoggedIn::dispatch($user->id, JsonWebToken::storeToken($token), Carbon::now());
+
+        return $token;
     }
 }
