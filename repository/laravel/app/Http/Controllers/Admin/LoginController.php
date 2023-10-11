@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Resources\LoginDestroyResource;
 use App\Http\Service\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LoginStoreResource;
@@ -62,5 +63,41 @@ class LoginController extends Controller
     public function store(UserService $userService): JsonResource
     {
         return new LoginStoreResource($userService->issueLoginToken());
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/admin/logout",
+     *     tags={"Admin"},
+     *     summary="Logout an Admin account",
+     *     description="Test Description",
+     *     operationId="admin-logout",
+     *     @OA\Response(
+     *         response="200",
+     *         description="OK"
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="Page not found"
+     *     ),
+     *     @OA\Response(
+     *         response="422",
+     *         description="Unprocessable Entity"
+     *     ),
+     *     @OA\Response(
+     *         response="500",
+     *         description="Internal server error"
+     *     )
+     * )
+     *
+     * Remove the specified resource from storage.
+     */
+    public function destroy()
+    {
+        return new LoginDestroyResource([]);
     }
 }
