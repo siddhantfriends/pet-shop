@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use Auth;
 use JetBrains\PhpStorm\Pure;
-use OpenApi\Annotations\OpenApi;
 use App\Http\Service\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Contracts\Auth\JsonWebToken;

@@ -4,6 +4,7 @@ namespace Tests\Feature\User;
 
 use App\Facades\JsonWebToken;
 use App\Models\User;
+use Illuminate\Http\Response;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -35,6 +36,17 @@ class ViewUserAccountTest extends TestCase
         $response->assertSuccessful();
 
         $response->assertJsonPath('data.uuid', $this->user->uuid);
+    }
+
+    /**
+     * Unauthorized for invalid token
+     */
+    public function cannot_view_user_account_for_invalid_token(): void
+    {
+        $response = $this->withHeaders(['Authorization'=>'Bearer '. 'invalid-token'])
+            ->get(route('user.account'));
+
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED);
     }
 
     private function issueToken(): string

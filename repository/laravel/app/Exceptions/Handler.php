@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -33,6 +34,10 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (NotFoundHttpException $e): void {
             throw new RouteNotFound('Invalid URI', Response::HTTP_NOT_FOUND, $e);
+        });
+
+        $this->renderable(function (UnauthorizedException $e): void {
+            throw new Unauthorized('Unauthorized', Response::HTTP_UNAUTHORIZED, $e);
         });
 
         $this->renderable(function (Exception $e): void {

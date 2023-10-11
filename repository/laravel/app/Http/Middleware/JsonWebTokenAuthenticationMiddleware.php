@@ -21,7 +21,7 @@ class JsonWebTokenAuthenticationMiddleware
     {
         $token = $request->bearerToken();
 
-        if ($this->hasValidToken($token)) {
+        if ($token && $this->hasValidToken($token)) {
             $user = $this->fetchUserFromDatabase($token);
             Auth::setUser($user);
 
