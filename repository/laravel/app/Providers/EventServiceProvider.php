@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Events\LoggedIn;
+use App\Events\TokenLastUsed;
+use App\Listeners\UpdateJwtTokenLastUsedAtNotification;
 use App\Listeners\UpdateOrStoreJwtTokenNotification;
 use App\Listeners\UpdateUserLastLoginAtNotification;
 use Illuminate\Auth\Events\Registered;
@@ -24,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         LoggedIn::class => [
             UpdateUserLastLoginAtNotification::class,
             UpdateOrStoreJwtTokenNotification::class,
+        ],
+        TokenLastUsed::class => [
+            UpdateJwtTokenLastUsedAtNotification::class,
         ],
     ];
 

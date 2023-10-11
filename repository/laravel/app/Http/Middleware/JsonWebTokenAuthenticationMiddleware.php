@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Events\TokenLastUsed;
 use Auth;
+use Carbon\Carbon;
 use Closure;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -38,6 +40,11 @@ class JsonWebTokenAuthenticationMiddleware
 
     public function fetchUserFromDatabase(string $token): User
     {
-        return User::whereUuid(JsonWebToken::uuid($token))->firstOrFail();
+        $uuid = JsonWebToken::uuid($token);
+        $user = User::whereUuid($uuid)->firstOrFail();
+
+        TokenLastUsed::dispatch($uuid, Carbon::now());
+
+        return $user;
     }
 }
