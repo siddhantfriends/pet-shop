@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Http\Resources\LoginDestroyResource;
+use JetBrains\PhpStorm\Pure;
 use App\Http\Service\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LoginStoreResource;
+use App\Http\Resources\LoginDestroyResource;
 use Illuminate\Http\Resources\Json\JsonResource;
-use JetBrains\PhpStorm\Pure;
 
 class LoginController extends Controller
 {
@@ -97,7 +97,8 @@ class LoginController extends Controller
      *
      * Remove the specified resource from storage.
      */
-    #[Pure] public function destroy()
+    #[Pure]
+    public function destroy(): JsonResource
     {
         return new LoginDestroyResource([]);
     }
