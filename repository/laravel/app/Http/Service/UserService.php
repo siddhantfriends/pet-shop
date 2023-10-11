@@ -31,7 +31,6 @@ class UserService
     public function isAdmin(StoreUserRequest|StoreAdminRequest $request): bool
     {
         return match ($request::class) {
-            StoreUserRequest::class => false,
             StoreAdminRequest::class => true,
             default => false,
         };

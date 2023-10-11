@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
+use App\Http\Contracts\Auth\JsonWebToken;
+use App\Http\Service\Auth\JsonWebTokenManager;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -29,5 +31,12 @@ class AuthServiceProvider extends ServiceProvider
                 ? $rule->mixedCase()->uncompromised()
                 : $rule;
         });
+
+        $this->registerJsonWebToken();
+    }
+
+    public function registerJsonWebToken(): void {
+        $this->app->singleton(JsonWebToken::class, fn () => new JsonWebTokenManager());
+        $this->app->singleton('JsonWebToken', fn () => new JsonWebTokenManager());
     }
 }

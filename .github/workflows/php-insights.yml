@@ -31,8 +31,10 @@ jobs:
     - name: Copy DotEnv
       run: cp .env.test .env
 
-    - name: Generate Application Key
-      run: php artisan key:generate
+    - name: Generate Application Keys
+      run: |
+        php artisan key:generate
+        php artisan jwt:keys
 
     - name: Run Migrations
       run: php artisan migrate --no-interaction --ansi

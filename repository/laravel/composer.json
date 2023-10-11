@@ -9,7 +9,9 @@
         "darkaonline/l5-swagger": "^8.5",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.10",
-        "laravel/tinker": "^2.8"
+        "laravel/tinker": "^2.8",
+        "lcobucci/jwt": "^5.0",
+        "spatie/crypto": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.13",

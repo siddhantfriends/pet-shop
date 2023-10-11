@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Service\UserService;
 use App\Http\Controllers\Controller;
+use App\Http\Contracts\Auth\JsonWebToken;
 use App\Http\Requests\Admin\StoreAdminRequest;
 use App\Http\Resources\Admin\StoreAdminResource;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -68,7 +69,11 @@ class AdminController extends Controller
      *                     type="string",
      *                     enum={"0", "1"},
      *                 ),
-     *                 required={"first_name", "last_name", "email", "password", "password_confirmation", "avatar", "address", "phone_number"}
+     *                 required={
+     *                      "first_name", "last_name", "email",
+     *                      "password", "password_confirmation",
+     *                      "avatar", "address", "phone_number"
+     *                 }
      *             )
      *         )
      *     ),
@@ -96,10 +101,10 @@ class AdminController extends Controller
      *
      * Store a newly created resource in storage.
      */
-    public function store(StoreAdminRequest $request, UserService $service): JsonResource
+    public function store(StoreAdminRequest $request, UserService $service, JsonWebToken $jsonWebToken): JsonResource
     {
         $user = $service->createUser($request);
 
-        return new StoreAdminResource($user->fresh());
+        return new StoreAdminResource($user->fresh(), $jsonWebToken->issue($user));
     }
 }

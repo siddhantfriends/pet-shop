@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use App\Http\Middleware\JsonWebTokenAuthenticationMiddleware;
 
 class Kernel extends HttpKernel
 {
@@ -11,6 +12,7 @@ class Kernel extends HttpKernel
      *
      * These middleware are run during every request to your application.
      *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      * @var array<int, class-string|string>
      */
     protected $middleware = [
@@ -26,6 +28,7 @@ class Kernel extends HttpKernel
     /**
      * The application's route middleware groups.
      *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      * @var array<string, array<int, class-string|string>>
      */
     protected $middlewareGroups = [
@@ -49,12 +52,14 @@ class Kernel extends HttpKernel
      *
      * Aliases may be used instead of class names to conveniently assign middleware to routes and groups.
      *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
+        'auth.jwt' => JsonWebTokenAuthenticationMiddleware::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,

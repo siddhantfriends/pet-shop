@@ -2,14 +2,54 @@
 
 namespace App\Http\Controllers\User;
 
+use Auth;
+use JetBrains\PhpStorm\Pure;
 use App\Http\Service\UserService;
 use App\Http\Controllers\Controller;
+use App\Http\Contracts\Auth\JsonWebToken;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Resources\User\StoreUserResource;
+use App\Http\Resources\User\UserIndexResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/v1/user",
+     *     tags={"User"},
+     *     summary="View a User account",
+     *     description="Test Description",
+     *     operationId="user-read",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response="200",
+     *         description="OK"
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="Page not found"
+     *     ),
+     *     @OA\Response(
+     *         response="422",
+     *         description="Unprocessable Entity"
+     *     ),
+     *     @OA\Response(
+     *         response="500",
+     *         description="Internal server error"
+     *     )
+     * )
+     */
+    #[Pure]
+    public function index(): JsonResource
+    {
+        return new UserIndexResource(Auth::user());
+    }
+
     /**
      * @OA\Post(
      *     path="/api/v1/user/create",
@@ -100,10 +140,10 @@ class UserController extends Controller
      *
      * Store a newly created resource in storage.
      */
-    public function store(StoreUserRequest $request, UserService $service): JsonResource
+    public function store(StoreUserRequest $request, UserService $service, JsonWebToken $jsonWebToken): JsonResource
     {
         $user = $service->createUser($request);
 
-        return new StoreUserResource($user->fresh());
+        return new StoreUserResource($user->fresh(), $jsonWebToken->issue($user));
     }
 }
