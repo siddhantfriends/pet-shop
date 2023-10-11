@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\UnauthorizedException;
@@ -47,6 +48,10 @@ class Handler extends ExceptionHandler
 
         $this->renderable(function (UnauthorizedException $e): void {
             throw new Unauthorized('Unauthorized', Response::HTTP_UNAUTHORIZED, $e);
+        });
+
+        $this->renderable(function (ThrottleRequestsException $e): void {
+            throw new Throttle('Too Many Attempts', Response::HTTP_UNPROCESSABLE_ENTITY, $e);
         });
 
         $this->renderable(function (Exception $e): void {
