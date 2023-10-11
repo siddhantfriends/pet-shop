@@ -4,6 +4,7 @@ namespace App\Http\Service\Auth;
 
 use App\Models\User;
 use DateTimeImmutable;
+use App\Models\JwtToken;
 use Lcobucci\JWT\Builder;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Configuration;
@@ -89,5 +90,32 @@ class JsonWebTokenManager implements JsonWebToken
         } catch (CannotDecodeContent | InvalidTokenStructure | UnsupportedHeaderFound $e) {
             throw new UnauthorizedException(previous: $e);
         }
+    }
+
+    /**
+     * @return array<string, string|array<string, string>>
+     */
+    public function storeToken(string $token): array
+    {
+        $parsedToken = $this->parseToken($token);
+        $user = request()->user();
+
+        return [
+            'user_id' => $user->id,
+            'unique_id' => $user->uuid,
+            'token_title' => match ($user->isAdmin()) {
+                true => JwtToken::TOKEN_TITLE_ADMIN,
+                default => JwtToken::TOKEN_TITLE_PERSONAL,
+            },
+            'restrictions' => match ($user->isAdmin()) {
+                true => JwtToken::RESTRICTIONS_ADMIN,
+                default => JwtToken::RESTRICTIONS_PERSONAL,
+            },
+            'permissions' => match ($user->isAdmin()) {
+                true => JwtToken::PERMISSIONS_ADMIN,
+                default => JwtToken::PERMISSIONS_PERSONAL,
+            },
+            'expires_at' => $parsedToken->claims()->get('exp'),
+        ];
     }
 }
