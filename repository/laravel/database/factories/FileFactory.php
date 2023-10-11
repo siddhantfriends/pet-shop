@@ -20,7 +20,7 @@ class FileFactory extends Factory
     {
         return [
             'name' => 'default.webp',
-            'path' => 'avatar/default.webp',
+            'path' => 'pet-shop/default.webp',
             'size' => '2M',
             'type' => 'webp',
         ];

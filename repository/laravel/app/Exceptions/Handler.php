@@ -6,6 +6,7 @@ use Exception;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\UnauthorizedException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -33,7 +34,10 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (NotFoundHttpException $e): void {
-            throw new RouteNotFound('Invalid URI', Response::HTTP_NOT_FOUND, $e);
+            match (get_class($e->getPrevious())) {
+                ModelNotFoundException::class => throw new FileNotFound('File not found', Response::HTTP_NOT_FOUND, $e),
+                default => throw new RouteNotFound('Invalid URI', Response::HTTP_NOT_FOUND, $e),
+            };
         });
 
         $this->renderable(function (UnauthorizedException $e): void {

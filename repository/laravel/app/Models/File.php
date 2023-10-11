@@ -11,6 +11,19 @@ class File extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
+     * @var array<string>
+     */
+    protected $fillable = [
+        'name',
+        'path',
+        'size',
+        'type',
+    ];
+
+    /**
      * Bootstrap the model and its traits.
      * @throws \Exception
      */
@@ -18,5 +31,10 @@ class File extends Model
     {
         parent::boot();
         app(GenerateUUIDService::class)->handle(new File());
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
     }
 }
