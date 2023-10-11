@@ -105,9 +105,7 @@ class JsonWebTokenTest extends TestCase
      */
     public function token_has_user_uuid(): void
     {
-        $token = JsonWebToken::parseToken($this->token);
-
-        $this->assertNotEmpty($token->claims()->get('user_uuid'));
+        $this->assertNotEmpty(JsonWebToken::uuid($this->token));
     }
 
     private function issueToken(): string

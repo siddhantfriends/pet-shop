@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers\User;
 
+use Auth;
+use JetBrains\PhpStorm\Pure;
 use App\Http\Service\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Contracts\Auth\JsonWebToken;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Resources\User\StoreUserResource;
+use App\Http\Resources\User\UserIndexResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserController extends Controller
 {
+    #[Pure]
+    public function index(): JsonResource
+    {
+        return new UserIndexResource(Auth::user());
+    }
+
     /**
      * @OA\Post(
      *     path="/api/v1/user/create",

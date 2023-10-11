@@ -9,6 +9,7 @@ use Tests\TestCase;
 class ResetDatabaseTest extends TestCase
 {
     use RefreshDatabase;
+
     /**
      * Tests the app reset database command
      * @test

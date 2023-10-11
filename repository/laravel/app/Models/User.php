@@ -5,7 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Service\GenerateUUIDService;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -80,8 +80,8 @@ class User extends Authenticatable
         return !$this->is_admin;
     }
 
-    public function avatar(): HasOne
+    public function avatar(): BelongsTo
     {
-        return $this->hasOne(File::class, 'id', 'avatar');
+        return $this->belongsTo(File::class, 'uuid', 'avatar');
     }
 }

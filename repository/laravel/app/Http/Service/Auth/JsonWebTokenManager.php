@@ -71,6 +71,13 @@ class JsonWebTokenManager implements JsonWebToken
             );
     }
 
+    public function uuid(string $token): string
+    {
+        $parsedToken = $this->parseToken($token);
+
+        return $parsedToken->claims()->get('user_uuid');
+    }
+
     public function parseToken(string $token): UnencryptedToken
     {
         try {
