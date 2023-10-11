@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Auth;
 use JetBrains\PhpStorm\Pure;
+use OpenApi\Annotations\OpenApi;
 use App\Http\Service\UserService;
 use App\Http\Controllers\Controller;
 use App\Http\Contracts\Auth\JsonWebToken;
@@ -14,6 +15,36 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/v1/user",
+     *     tags={"User"},
+     *     summary="View a User account",
+     *     description="Test Description",
+     *     operationId="user-read",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(
+     *         response="200",
+     *         description="OK"
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="Page not found"
+     *     ),
+     *     @OA\Response(
+     *         response="422",
+     *         description="Unprocessable Entity"
+     *     ),
+     *     @OA\Response(
+     *         response="500",
+     *         description="Internal server error"
+     *     )
+     * )
+     */
     #[Pure]
     public function index(): JsonResource
     {

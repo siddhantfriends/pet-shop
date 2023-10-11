@@ -13,6 +13,15 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
  *     contact="SiddhantBaviskar@outlook.com",
  *     version="1.0.0"
  * )
+ *
+ * @OA\SecurityScheme(
+ *     type="http",
+ *     name="bearerAuth",
+ *     in="header",
+ *     securityScheme="bearerAuth",
+ *     scheme="bearer",
+ *     bearerFormat="JWT"
+ * )
  */
 class Controller extends BaseController
 {
