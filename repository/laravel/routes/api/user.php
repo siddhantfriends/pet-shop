@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\User\UserController;
+use App\Http\Controllers\User\LoginController;
 
 Route::group(['prefix' => 'user', 'as' => 'user.'], function (): void {
     Route::post('/create', [UserController::class, 'store'])->name('create');
 
-    Route::post('/login', [\App\Http\Controllers\LoginController::class, 'store'])
+    Route::post('/login', [LoginController::class, 'store'])
         ->middleware('auth.login')
         ->can('user-access')
         ->name('login');

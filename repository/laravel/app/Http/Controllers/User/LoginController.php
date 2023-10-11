@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Http\Service\UserService;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\LoginStoreResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
