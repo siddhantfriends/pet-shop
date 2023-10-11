@@ -5,6 +5,8 @@ namespace App\Providers;
 // use Illuminate\Support\Facades\Gate;
 use App\Http\Contracts\Auth\JsonWebToken;
 use App\Http\Service\Auth\JsonWebTokenManager;
+use App\Models\User;
+use Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 
@@ -33,10 +35,22 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         $this->registerJsonWebToken();
+        $this->registerAuthorizationGates();
     }
 
     public function registerJsonWebToken(): void {
         $this->app->singleton(JsonWebToken::class, fn () => new JsonWebTokenManager());
         $this->app->singleton('JsonWebToken', fn () => new JsonWebTokenManager());
+    }
+
+    public function registerAuthorizationGates(): void
+    {
+        Gate::define('user-access', function (User $user) {
+            return $user->isNotAdmin();
+        });
+
+        Gate::define('admin-access', function (User $user) {
+            return $user->isAdmin();
+        });
     }
 }

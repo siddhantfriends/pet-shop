@@ -20,6 +20,9 @@ class ViewUserAccountTest extends TestCase
     {
         parent::setUp();
 
+        $this->artisan('migrate:fresh');
+        $this->seed();
+
         $this->user = User::where('is_admin', 0)->first();
     }
 

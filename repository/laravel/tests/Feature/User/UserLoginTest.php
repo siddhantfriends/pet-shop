@@ -20,7 +20,7 @@ class UserLoginTest extends TestCase
     public function user_can_login_with_correct_password(): void
     {
         $response = $this->post(route('user.login'), [
-            'email' => $this->fetchNonAdminEmailAddress(),
+            'email' => $this->fetchUserEmailAddress(),
             'password' => 'userpassword',
         ]);
 
@@ -37,7 +37,7 @@ class UserLoginTest extends TestCase
     public function user_cannot_login_with_incorrect_password(): void
     {
         $response = $this->post(route('user.login'), [
-            'email' => $this->fetchNonAdminEmailAddress(),
+            'email' => $this->fetchUserEmailAddress(),
             'password' => 'incorrect password',
         ]);
 
@@ -46,8 +46,25 @@ class UserLoginTest extends TestCase
             ->assertJsonPath('success', 0);
     }
 
-    private function fetchNonAdminEmailAddress(): string
+    /**
+     * Admin cannot login to user with correct password
+     *
+     * @test
+     */
+    public function admin_cannot_login_to_user_with_correct_password(): void
     {
-        return User::whereIsAdmin(0)->first()->email;
+        $response = $this->post(route('user.login'), [
+            'email' => $this->fetchUserEmailAddress(1),
+            'password' => 'admin',
+        ]);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+            ->assertJsonMissingValidationErrors()
+            ->assertJsonPath('success', 0);
+    }
+
+    private function fetchUserEmailAddress(int $is_admin = 0): string
+    {
+        return User::whereIsAdmin($is_admin)->first()->email;
     }
 }
