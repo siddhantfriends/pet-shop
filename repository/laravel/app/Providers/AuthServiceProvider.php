@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Password::defaults(function () {
-            $rule = Password::min(8);
+            $rule = Password::min(4);
 
             return $this->app->isProduction()
                 ? $rule->mixedCase()->uncompromised()
