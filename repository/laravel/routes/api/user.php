@@ -11,6 +11,8 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function (): void {
         ->can('user-access')
         ->name('login');
 
+    Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
+
     Route::group(['middleware' => ['auth.jwt', 'can:user-access']], function (): void {
         Route::get('/', [UserController::class, 'index'])->name('account');
     });

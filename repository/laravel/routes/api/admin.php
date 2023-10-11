@@ -10,4 +10,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function (): void {
         ->middleware('auth.login')
         ->can('admin-access')
         ->name('login');
+
+    Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 });
