@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Events\TokenLastUsed;
 use Auth;
-use Carbon\Carbon;
 use Closure;
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Events\TokenLastUsed;
 use App\Facades\JsonWebToken;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Validation\UnauthorizedException;

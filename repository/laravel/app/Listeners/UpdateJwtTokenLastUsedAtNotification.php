@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-use App\Models\User;
 use App\Models\JwtToken;
 use App\Events\TokenLastUsed;
 
@@ -21,6 +20,7 @@ class UpdateJwtTokenLastUsedAtNotification
      */
     public function handle(TokenLastUsed $event): void
     {
-        JwtToken::where('unique_id', $event->uuid)->update(['last_used_at' => $event->lastUsedAt->format('Y-m-d H:i:s')]);
+        JwtToken::where('unique_id', $event->uuid)
+            ->update(['last_used_at' => $event->lastUsedAt->format('Y-m-d H:i:s')]);
     }
 }
