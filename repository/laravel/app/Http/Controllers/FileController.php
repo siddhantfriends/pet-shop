@@ -73,6 +73,43 @@ class FileController extends Controller
         return new FileStoreResource($fileObject->fresh());
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/v1/file/{uuid}",
+     *     tags={"File"},
+     *     summary="Read a file",
+     *     description="Test Description",
+     *     operationId="file-read",
+     *     @OA\Parameter(
+     *         name="uuid",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="OK"
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="Unauthorized"
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="Page not found"
+     *     ),
+     *     @OA\Response(
+     *         response="422",
+     *         description="Unprocessable Entity"
+     *     ),
+     *     @OA\Response(
+     *         response="500",
+     *         description="Internal server error"
+     *     )
+     * )
+     *
+     * Display the specified resource.
+     */
     public function show(File $file): BinaryFileResponse
     {
         return response()->download(storage_path('app/' . $file->path));

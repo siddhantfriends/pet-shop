@@ -15,7 +15,7 @@ class FileDownloadTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         $this->instance(
             ResponseFactory::class,
             Mockery::mock(
