@@ -9,6 +9,7 @@ use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -38,6 +39,10 @@ class Handler extends ExceptionHandler
                 ModelNotFoundException::class => throw new FileNotFound('File not found', Response::HTTP_NOT_FOUND, $e),
                 default => throw new RouteNotFound('Invalid URI', Response::HTTP_NOT_FOUND, $e),
             };
+        });
+
+        $this->renderable(function (AccessDeniedHttpException $e): void {
+            throw new FailedAuthentication('Failed to authenticate user', Response::HTTP_UNPROCESSABLE_ENTITY, $e);
         });
 
         $this->renderable(function (UnauthorizedException $e): void {

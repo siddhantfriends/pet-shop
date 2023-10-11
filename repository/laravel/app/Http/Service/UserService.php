@@ -3,6 +3,7 @@
 namespace App\Http\Service;
 
 use App\Models\User;
+use App\Facades\JsonWebToken;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\Admin\StoreAdminRequest;
 
@@ -34,5 +35,12 @@ class UserService
             StoreAdminRequest::class => true,
             default => false,
         };
+    }
+
+    public function issueLoginToken(): string
+    {
+        $user = request()->user();
+
+        return JsonWebToken::issue($user);
     }
 }
