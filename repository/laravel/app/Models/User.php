@@ -18,7 +18,7 @@ class User extends Authenticatable
      * The attributes that are mass assignable.
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingNativeTypeHint
-     * @var array<int, string>
+     * @var array<string>
      */
     protected $fillable = [
         'first_name',
