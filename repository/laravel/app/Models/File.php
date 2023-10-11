@@ -32,4 +32,9 @@ class File extends Model
         parent::boot();
         app(GenerateUUIDService::class)->handle(new File());
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'uuid';
+    }
 }

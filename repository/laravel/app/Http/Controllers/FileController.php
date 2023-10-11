@@ -6,6 +6,7 @@ use App\Models\File;
 use App\Http\Requests\FileStoreRequest;
 use App\Http\Resources\FileStoreResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FileController extends Controller
 {
@@ -70,5 +71,10 @@ class FileController extends Controller
         ]);
 
         return new FileStoreResource($fileObject->fresh());
+    }
+
+    public function show(File $file): BinaryFileResponse
+    {
+        return response()->download(storage_path('app/' . $file->path));
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FileController;
 
-Route::group(['prefix' => 'file', 'as' => 'file.', 'middleware' => 'auth.jwt'], function (): void {
-    Route::post('upload', [FileController::class, 'store'])->name('upload');
+Route::group(['prefix' => 'file', 'as' => 'file.'], function (): void {
+    Route::post('upload', [FileController::class, 'store'])->middleware('auth.jwt')->name('upload');
+    Route::get('{file:uuid}', [FileController::class, 'show'])->name('read');
 });

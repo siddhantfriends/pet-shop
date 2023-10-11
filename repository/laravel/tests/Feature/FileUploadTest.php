@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Facades\JsonWebToken;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
@@ -22,12 +24,16 @@ class FileUploadTest extends TestCase
 
         $response = $this->json('POST', route('file.upload'), [
             'file' => UploadedFile::fake()->image('default.webp')->size('100'),
-        ]);
+        ], $this->getAuthorizationHeaders());
 
         $response->assertStatus(Response::HTTP_OK);
 
         $response->assertJsonPath('success', 1)
             ->assertJsonPath('data.size', '102400')
             ->assertJsonPath('data.type', 'image/webp');
+    }
+
+    private function getAuthorizationHeaders() {
+        return ['Authorization' => 'Bearer ' . JsonWebToken::issue(User::first())];
     }
 }
