@@ -4,15 +4,13 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class FileNotFound extends Exception
 {
     /**
      * Render the exception as an HTTP response.
      */
-    public function render(Request $request): JsonResponse
+    public function render(): JsonResponse
     {
         return JsonResponse::error($this->getMessage(), status: $this->getCode());
     }

@@ -34,7 +34,7 @@ class Handler extends ExceptionHandler
         });
 
         $this->renderable(function (NotFoundHttpException $e): void {
-            match(get_class($e->getPrevious())) {
+            match (get_class($e->getPrevious())) {
                 ModelNotFoundException::class => throw new FileNotFound('File not found', Response::HTTP_NOT_FOUND, $e),
                 default => throw new RouteNotFound('Invalid URI', Response::HTTP_NOT_FOUND, $e),
             };
