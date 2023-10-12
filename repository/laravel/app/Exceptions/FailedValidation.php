@@ -9,12 +9,12 @@ use Illuminate\Validation\ValidationException;
 
 class FailedValidation extends Exception
 {
-    public ValidationException $ex;
+    public ?ValidationException $ex;
 
     /**
      * FailedValidation constructor.
      */
-    #[Pure] public function __construct(string $message, int $code, ValidationException $previous)
+    #[Pure] public function __construct(string $message, int $code, ?ValidationException $previous)
     {
         parent::__construct($message, $code, $previous);
 
@@ -34,6 +34,15 @@ class FailedValidation extends Exception
      */
     public function render(): JsonResponse
     {
-        return JsonResponse::error($this->getMessage(), $this->ex->validator->errors(), $this->getCode());
+        $errors = match ($this->ex) {
+            null => [],
+            default => optional($this->ex)->validator->errors(),
+        };
+
+        return JsonResponse::error(
+            $this->getMessage(),
+            $errors,
+            $this->getCode()
+        );
     }
 }
