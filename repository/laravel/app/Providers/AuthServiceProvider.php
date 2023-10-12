@@ -9,6 +9,8 @@ use App\Models\User;
 use Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -50,7 +52,10 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         Gate::define('admin-access', function (User $user) {
-            return $user->isAdmin();
+            return match($user->isAdmin()) {
+                true => $user->isAdmin(),
+                default => throw new UnauthorizedHttpException('Unauthorized: Not enough privileges'),
+            };
         });
     }
 }

@@ -90,4 +90,37 @@ class User extends Authenticatable
     {
         $query->whereIsAdmin(0);
     }
+
+    public function scopeSortBy(Builder $query, string $column, ?string $direction = 'asc'): void
+    {
+        $query->orderBy($column, $direction);
+    }
+
+    /**
+     * @param array<string, string> $options
+     */
+    public function scopeWhereFilters(Builder $query, array $options): void
+    {
+        array_walk(
+            $options,
+            fn ($value, $key) => $query->when(
+                $value,
+                fn () => $query->where($key, $value)
+            )
+        );
+    }
+
+    /**
+     * @param array<string, string> $options
+     */
+    public function scopeWhereLikeFilters(Builder $query, array $options): void
+    {
+        array_walk(
+            $options,
+            fn ($value, $key) => $query->when(
+                $value,
+                fn () => $query->where($key, 'LIKE', "%{$value}%")
+            )
+        );
+    }
 }

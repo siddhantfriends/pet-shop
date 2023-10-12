@@ -11,6 +11,7 @@ use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -71,6 +72,10 @@ class Handler extends ExceptionHandler
 
     private function registerUnauthorized(): void
     {
+        $this->renderable(function (UnauthorizedHttpException $e): void {
+            throw new Unauthorized('Unauthorized: Not enough privileges', Response::HTTP_UNPROCESSABLE_ENTITY, $e);
+        });
+
         $this->renderable(function (UnauthorizedException $e): void {
             throw new Unauthorized('Unauthorized', Response::HTTP_UNAUTHORIZED, $e);
         });
