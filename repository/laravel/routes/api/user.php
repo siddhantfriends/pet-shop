@@ -15,5 +15,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function (): void {
 
     Route::group(['middleware' => ['auth.jwt', 'can:user-access']], function (): void {
         Route::get('/', [UserController::class, 'index'])->name('account');
+
+        Route::put('/edit', [UserController::class, 'update'])->name('update');
     });
 });
