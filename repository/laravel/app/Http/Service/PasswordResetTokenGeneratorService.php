@@ -3,7 +3,6 @@
 namespace App\Http\Service;
 
 use App\Models\PasswordReset;
-use Illuminate\Database\Eloquent\Model;
 
 class PasswordResetTokenGeneratorService
 {
@@ -11,8 +10,14 @@ class PasswordResetTokenGeneratorService
 
     public function handle(PasswordReset $reset): void
     {
-        $reset::creating(function (Model $reset): void {
+        $reset::creating(function (PasswordReset $reset): void {
+            $this->flushPreviousEntries();
             $reset->setAttribute('token', bin2hex(openssl_random_pseudo_bytes(self::LENGTH)));
         });
+    }
+
+    private function flushPreviousEntries(): void
+    {
+        PasswordReset::whereEmail(request()->email)->delete();
     }
 }
