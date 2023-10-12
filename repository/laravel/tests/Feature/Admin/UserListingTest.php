@@ -24,6 +24,6 @@ class UserListingTest extends BaseTestCase
 
         $response->assertStatus(Response::HTTP_OK)
             ->assertJsonMissingValidationErrors()
-            ->assertJsonPath('success', 1);
+            ->assertJsonPath('current_page', 1);
     }
 }

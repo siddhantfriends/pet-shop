@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Service\GenerateUUIDService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -83,5 +84,10 @@ class User extends Authenticatable
     public function avatar(): BelongsTo
     {
         return $this->belongsTo(File::class, 'uuid', 'avatar');
+    }
+
+    public function scopeUsers(Builder $query): void
+    {
+        $query->whereIsAdmin(0);
     }
 }
