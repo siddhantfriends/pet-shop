@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Exception;
+use App\Models\File;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\UnauthorizedException;
@@ -57,7 +59,11 @@ class Handler extends ExceptionHandler
     {
         $this->renderable(function (NotFoundHttpException $e): void {
             match (get_class($e->getPrevious())) {
-                ModelNotFoundException::class => throw new FileNotFound('File not found', Response::HTTP_NOT_FOUND, $e),
+                ModelNotFoundException::class => match ($e->getPrevious()->getModel()) {
+                    File::class => throw new FileNotFound('File not found', Response::HTTP_NOT_FOUND, $e),
+                    User::class => throw new UserNotFound('Unauthorized', Response::HTTP_UNAUTHORIZED, $e),
+                    default => new Unauthorized('Unauthorized', Response::HTTP_UNAUTHORIZED, $e),
+                },
                 default => throw new RouteNotFound('Invalid URI', Response::HTTP_NOT_FOUND, $e),
             };
         });

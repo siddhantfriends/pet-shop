@@ -45,6 +45,11 @@ class UserService
         );
     }
 
+    public function deleteUser(User $user): void
+    {
+        $user->delete();
+    }
+
     /**
      * The method returns true for admin else false
      */
