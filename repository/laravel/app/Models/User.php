@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 use App\Http\Service\GenerateUUIDService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -83,5 +84,43 @@ class User extends Authenticatable
     public function avatar(): BelongsTo
     {
         return $this->belongsTo(File::class, 'uuid', 'avatar');
+    }
+
+    public function scopeUsers(Builder $query): void
+    {
+        $query->whereIsAdmin(0);
+    }
+
+    public function scopeSortBy(Builder $query, string $column, ?string $direction = 'asc'): void
+    {
+        $query->orderBy($column, $direction);
+    }
+
+    /**
+     * @param array<string, string> $options
+     */
+    public function scopeWhereFilters(Builder $query, array $options): void
+    {
+        array_walk(
+            $options,
+            fn ($value, $key) => $query->when(
+                $value,
+                fn () => $query->where($key, $value)
+            )
+        );
+    }
+
+    /**
+     * @param array<string, string> $options
+     */
+    public function scopeWhereLikeFilters(Builder $query, array $options): void
+    {
+        array_walk(
+            $options,
+            fn ($value, $key) => $query->when(
+                $value,
+                fn () => $query->where($key, 'LIKE', "%{$value}%")
+            )
+        );
     }
 }
