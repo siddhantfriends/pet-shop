@@ -76,7 +76,10 @@ class UserEditController extends Controller
      *                     type="string",
      *                     enum={"0", "1"},
      *                 ),
-     *                 required={"first_name", "last_name", "email", "password", "password_confirmation", "address", "phone_number"}
+     *                 required={
+     *                     "first_name", "last_name", "email", "password",
+     *                     "password_confirmation", "address", "phone_number"
+     *                 }
      *             )
      *         )
      *    ),
