@@ -61,6 +61,24 @@ class ForgotPasswordTest extends TestCase
         $this->assertDatabaseCount(self::TABLE_NAME, 1);
     }
 
+    /**
+     * Ensures no token is generated for admin users.
+     *
+     * @test
+     */
+    public function does_not_generate_token_for_admin_users(): void
+    {
+        $user = User::factory()->admin()->create();
+
+        $response = $this->post(route('user.forgot-pass'), [
+            'email' => $user->email,
+        ]);
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND)
+            ->assertJsonMissingValidationErrors()
+            ->assertJsonPath('success', 0);
+    }
+
     private function triggerPasswordReset(): TestResponse
     {
         return $this->post(route('user.forgot-pass'), [

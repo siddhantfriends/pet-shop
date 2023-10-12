@@ -63,4 +63,47 @@ class ResetPasswordTest extends TestCase
 
         $this->assertDatabaseCount(self::TABLE_NAME, 0);
     }
+
+    /**
+     * Ensures admin password cannot be reset with a user token
+     *
+     * @test
+     */
+    public function cannot_reset_admin_password_with_user_token(): void
+    {
+        $admin = User::factory()->admin()->create();
+
+        $response = $this->post(route('user.reset-pass-token'), [
+            'token' => $this->reset->token,
+            'email' => $admin->email,
+            'password' => 'admin',
+            'password_confirmation' => 'admin',
+        ]);
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND)
+            ->assertJsonMissingValidationErrors()
+            ->assertJsonPath('success', 0);
+    }
+
+    /**
+     * Ensures that User B cannot maliciously reset password from
+     * User A's token.
+     *
+     * @test
+     */
+    public function cannot_reset_user_b_password_with_user_a_token(): void
+    {
+        $userB = User::factory()->create();
+
+        $response = $this->post(route('user.reset-pass-token'), [
+            'token' => $this->reset->token,
+            'email' => $userB->email,
+            'password' => 'userpassword',
+            'password_confirmation' => 'userpassword',
+        ]);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+            ->assertJsonMissingValidationErrors()
+            ->assertJsonPath('success', 0);
+    }
 }

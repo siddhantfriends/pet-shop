@@ -15,9 +15,11 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function (): void {
 
     Route::get('/logout', [LoginController::class, 'destroy'])->name('logout');
 
-    Route::post('/forgot-password', ForgotPasswordController::class)->name('forgot-pass');
+    Route::group(['middleware' => 'auth.reset'], function (): void {
+        Route::post('/forgot-password', ForgotPasswordController::class)->name('forgot-pass');
 
-    Route::post('/reset-password-token', ResetPasswordController::class)->name('reset-pass-token');
+        Route::post('/reset-password-token', ResetPasswordController::class)->name('reset-pass-token');
+    });
 
     Route::group(['middleware' => ['auth.jwt', 'can:user-access']], function (): void {
         Route::get('/', [UserController::class, 'index'])->name('account');
