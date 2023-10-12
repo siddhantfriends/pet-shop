@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Events\LoggedIn;
 use App\Facades\JsonWebToken;
+use App\Http\Requests\Admin\UserEditRequest;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\Admin\StoreAdminRequest;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -28,6 +29,20 @@ class UserService
         );
 
         return User::create($validated->toArray());
+    }
+
+    /**
+     * The method edits a user
+     * @throws \Throwable
+     */
+    public function editUser(UserEditRequest $request, User $user): void
+    {
+        $user->updateOrFail(
+            $request->safe()->only([
+                'first_name', 'last_name', 'email', 'password',
+                'avatar', 'address', 'phone_number', 'is_marketing',
+            ])
+        );
     }
 
     /**
