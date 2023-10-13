@@ -29,6 +29,10 @@ class OrderStatusUpdateRequest extends FormRequest
      */
     protected function failedValidation(Validator $validator): void
     {
-        throw new FailedValidation('Order status not found', Response::HTTP_NOT_FOUND, new ValidationException($validator));
+        throw new FailedValidation(
+            'Order status not found',
+            Response::HTTP_NOT_FOUND,
+            new ValidationException($validator)
+        );
     }
 }
