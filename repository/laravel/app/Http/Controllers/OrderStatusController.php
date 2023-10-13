@@ -231,8 +231,11 @@ class OrderStatusController extends Controller
      *
      * Update the specified resource in storage.
      */
-    public function update(OrderStatusUpdateRequest $request, OrderStatus $orderStatus, OrderStatusService $service): JsonResource
-    {
+    public function update(
+        OrderStatusUpdateRequest $request,
+        OrderStatus $orderStatus,
+        OrderStatusService $service
+    ): JsonResource {
         $service->update($request, $orderStatus);
         return new OrderStatusUpdateResource($orderStatus->fresh());
     }

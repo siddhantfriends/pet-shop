@@ -66,16 +66,16 @@ class Handler extends ExceptionHandler
                 ModelNotFoundException::class => match ($e->getPrevious()->getModel()) {
                     File::class => throw new FileNotFound('File not found', Response::HTTP_NOT_FOUND, $e),
                     User::class => throw new UserNotFound('Unauthorized', Response::HTTP_UNAUTHORIZED, $e),
-                    Product::class => throw new CategoryNotFound('Product not found', Response::HTTP_NOT_FOUND, $e),
+                    Product::class => throw new ProductNotFound('Product not found', Response::HTTP_NOT_FOUND, $e),
                     Category::class => throw new CategoryNotFound(
                         'Category not found',
                         Response::HTTP_NOT_FOUND,
                         $e
-                    ),
-                    OrderStatus::class => throw new OrderStatusNotFound(
-                        'Order status not found', Response::HTTP_NOT_FOUND, $e
-                    ),
-                    Payment::class => throw new PaymentNotFound('Payment not found', Response::HTTP_NOT_FOUND, $e),
+                    ), OrderStatus::class => throw new OrderStatusNotFound(
+                        'Order status not found',
+                        Response::HTTP_NOT_FOUND,
+                        $e
+                    ), Payment::class => throw new PaymentNotFound('Payment not found', Response::HTTP_NOT_FOUND, $e),
                     default => throw new Unauthorized('Unauthorized', Response::HTTP_UNAUTHORIZED, $e),
                 },
                 default => throw new RouteNotFound('Invalid URI', Response::HTTP_NOT_FOUND, $e),

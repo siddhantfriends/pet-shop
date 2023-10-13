@@ -3,10 +3,10 @@
 namespace App\Http\Contracts;
 
 use App\Models\OrderStatus;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Http\Requests\OrderStatus\OrderStatusIndexRequest;
 use App\Http\Requests\OrderStatus\OrderStatusStoreRequest;
 use App\Http\Requests\OrderStatus\OrderStatusUpdateRequest;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface OrderStatusApiResource
 {

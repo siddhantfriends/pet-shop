@@ -45,3 +45,58 @@ The repository directory will contain the Laravel application.
 
 * Laravel Tests
 * Larastan Static Code Analysis
+
+# Setup Guide
+
+### 1. Clone the repository to your local folder
+
+### 2. Run with docker-compose
+
+Execute the below command:
+
+```bash
+docker-compose exec up -d
+```
+### 3. Connect to the container for further setup
+
+```bash
+docker-compose exec php8 bash
+```
+### 4. Copy .env.example to .env
+
+```bash
+cp .env.example .env
+```
+
+### 5. Run Composer Install
+
+```bash
+composer install
+```
+
+### 6. Generate Application Keys
+
+```bash
+php artisan key:generate
+```
+
+Keys for JWT can be generated using:
+
+```bash
+php artisan jwt:keys
+```
+### 7. Run Migrations
+
+```bash
+php artisan migrate
+```
+### 8. Choose your localhost or virtual host configuration.
+
+Localhost: [http://localhost](http://localhost)
+
+Virtual Host: [http://api.pet-shop.test](http://api.pet-shop.test)
+
+Note: Please make sure the host file has the correct entry.
+
+-------
+Thank you!

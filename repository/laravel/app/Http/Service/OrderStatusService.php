@@ -3,8 +3,6 @@
 namespace App\Http\Service;
 
 use App\Models\OrderStatus;
-use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
 use App\Http\Contracts\OrderStatusApiResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests\OrderStatus\OrderStatusIndexRequest;
