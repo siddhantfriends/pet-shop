@@ -4,14 +4,14 @@ namespace App\Http\Service;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Http\Contracts\ApiResource;
+use App\Http\Contracts\CategoryApiResource;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests\Category\CategoryIndexRequest;
 use App\Http\Requests\Category\CategoryStoreRequest;
 use App\Http\Requests\Category\CategoryUpdateRequest;
 
-class CategoryService extends ApiResourceService implements ApiResource
+class CategoryService extends CategoryApiResourceService implements CategoryApiResource
 {
     public function store(CategoryStoreRequest|Request $request): Category
     {

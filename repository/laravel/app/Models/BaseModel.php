@@ -27,7 +27,10 @@ class BaseModel extends Model
     {
         parent::boot();
         app(GenerateUUIDService::class)->handle(new BaseModel());
+    }
 
+    protected static function registerSlugGenerator(): void
+    {
         static::saving(fn ($model) => $model->slug = Str::slug($model->title));
     }
 }
