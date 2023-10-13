@@ -27,15 +27,15 @@ class FileFactory extends Factory
     }
 
     #[ArrayShape(['type' => "string"])]
-    public function png(): array {
-        return [
+    public function png(): static {
+        return $this->state(fn (array $attributes) => [
             'type' => 'png',
-        ];
+        ]);
     }
 
     public function jpg(): array {
-        return [
+        return $this->state(fn (array $attributes) => [
             'type' => 'jpg',
-        ];
+        ]);
     }
 }
