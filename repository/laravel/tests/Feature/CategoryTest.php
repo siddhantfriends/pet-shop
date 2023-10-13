@@ -65,4 +65,28 @@ class CategoryTest extends BaseTestCase
             'title' => $edit->title,
         ]);
     }
+
+    /**
+     * Checks if user can update a category
+     *
+     * @test
+     */
+    public function user_cannot_update_a_non_existing_category(): void
+    {
+        $category = Category::factory()->make();
+
+        $this->assertDatabaseMissing(self::TABLE, [
+            'title' => $category->title,
+        ]);
+
+        $response = $this->put(
+            route('category.update', ['category' => 'uuid-not-exists']),
+            ['title' => $category->title],
+            $this->getAuthorizationHeader($this->user)
+        );
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND)
+            ->assertJsonMissingValidationErrors()
+            ->assertJsonPath('success', 0);
+    }
 }
