@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\OrderStatus;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\UnauthorizedException;
@@ -70,6 +71,9 @@ class Handler extends ExceptionHandler
                         'Category not found',
                         Response::HTTP_NOT_FOUND,
                         $e
+                    ),
+                    OrderStatus::class => throw new OrderStatusNotFound(
+                        'Order status not found', Response::HTTP_NOT_FOUND, $e
                     ),
                     Payment::class => throw new PaymentNotFound('Payment not found', Response::HTTP_NOT_FOUND, $e),
                     default => throw new Unauthorized('Unauthorized', Response::HTTP_UNAUTHORIZED, $e),
