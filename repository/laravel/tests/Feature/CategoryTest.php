@@ -122,4 +122,40 @@ class CategoryTest extends BaseTestCase
             ->assertJsonMissingValidationErrors()
             ->assertJsonPath('current_page', 1);
     }
+
+    /**
+     * Ensures that the category can be deleted
+     *
+     * @test
+     */
+    public function can_delete_a_category(): void
+    {
+        $category = Category::factory()->create();
+
+        $response = $this->delete(
+            route('category.destroy', ['category' => $category->uuid]),
+            headers: $this->getAuthorizationHeader($this->user)
+        );
+
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertJsonMissingValidationErrors()
+            ->assertJsonPath('success', 1);
+    }
+
+    /**
+     * Ensures that the category cannot be deleted without authorization
+     *
+     * @test
+     */
+    public function cannot_delete_a_category_without_authorization(): void
+    {
+        $category = Category::factory()->create();
+
+        $response = $this->delete(route('category.destroy', [
+            'category' => $category->uuid,
+        ]));
+
+        $response->assertStatus(Response::HTTP_UNAUTHORIZED)
+            ->assertJsonMissingValidationErrors();
+    }
 }

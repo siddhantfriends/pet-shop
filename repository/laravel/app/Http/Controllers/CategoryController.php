@@ -11,6 +11,7 @@ use App\Http\Requests\CategoryUpdateRequest;
 use App\Http\Resources\CategoryShowResource;
 use App\Http\Resources\CategoryStoreResource;
 use App\Http\Resources\CategoryUpdateResource;
+use App\Http\Resources\CategoryDestroyResource;
 use App\Http\Resources\CategoryIndexCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -55,8 +56,10 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): void
+    public function destroy(Category $category, CategoryService $service): JsonResource
     {
-        //
+        $service->destroy($category);
+
+        return new CategoryDestroyResource([]);
     }
 }

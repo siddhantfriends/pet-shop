@@ -5,6 +5,7 @@ namespace App\Http\Service;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Contracts\ApiResource;
+use Illuminate\Database\Eloquent\Model;
 use App\Http\Requests\CategoryIndexRequest;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
@@ -12,31 +13,18 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class CategoryService extends ApiResourceService implements ApiResource
 {
-    /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
-     * @param CategoryStoreRequest $request
-     */
-    public function store($request): Category
+    public function store(CategoryStoreRequest|Request $request): Category
     {
         return Category::create($request->all());
     }
 
-    /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
-     * @param CategoryStoreRequest|CategoryUpdateRequest $request
-     * @param Category $model
-     */
-    public function update($request, $model): void
+    public function update(CategoryUpdateRequest|Request $request, Category|Model $model): void
     {
         $category = Category::find($model->id);
         $category->update($request->all());
     }
 
-    /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
-     * @param Category $model
-     */
-    public function destroy($model): void
+    public function destroy(Category|Model $model): void
     {
         $category = Category::find($model->id);
         $category->delete();
