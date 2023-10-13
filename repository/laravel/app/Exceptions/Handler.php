@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use App\Models\File;
 use App\Models\User;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Response;
@@ -70,6 +71,7 @@ class Handler extends ExceptionHandler
                         Response::HTTP_NOT_FOUND,
                         $e
                     ),
+                    Payment::class => throw new PaymentNotFound('Payment not found', Response::HTTP_NOT_FOUND, $e),
                     default => throw new Unauthorized('Unauthorized', Response::HTTP_UNAUTHORIZED, $e),
                 },
                 default => throw new RouteNotFound('Invalid URI', Response::HTTP_NOT_FOUND, $e),

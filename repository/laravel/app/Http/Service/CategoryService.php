@@ -4,8 +4,8 @@ namespace App\Http\Service;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Http\Contracts\CategoryApiResource;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Contracts\CategoryApiResource;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Http\Requests\Category\CategoryIndexRequest;
 use App\Http\Requests\Category\CategoryStoreRequest;
