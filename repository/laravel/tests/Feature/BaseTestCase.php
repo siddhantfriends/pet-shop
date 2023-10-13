@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Facades\JsonWebToken;
 use App\Models\User;
+use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use JetBrains\PhpStorm\ArrayShape;
@@ -20,12 +21,14 @@ abstract class BaseTestCase extends TestCase
     {
         parent::setUp();
 
-        $this->seed();
+        User::factory()->admin()->create();
+
+        $this->seed(UserSeeder::class);
 
         $this->registerUsers();
     }
 
-    private function registerUsers(): void
+    protected function registerUsers(): void
     {
         $this->admin = $this->getUserAccount(1);
         $this->user = $this->getUserAccount(0);

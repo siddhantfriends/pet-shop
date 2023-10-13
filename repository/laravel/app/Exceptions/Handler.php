@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use App\Models\File;
 use App\Models\User;
+use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
@@ -58,17 +59,22 @@ class Handler extends ExceptionHandler
 
     private function registerNotFoundExceptions(): void
     {
-        $this->renderable(function (NotFoundHttpException $e): void {
-            match (get_class($e->getPrevious())) {
+        $this->renderable(
+            fn (NotFoundHttpException $e) => match (get_class($e->getPrevious())) {
                 ModelNotFoundException::class => match ($e->getPrevious()->getModel()) {
                     File::class => throw new FileNotFound('File not found', Response::HTTP_NOT_FOUND, $e),
                     User::class => throw new UserNotFound('Unauthorized', Response::HTTP_UNAUTHORIZED, $e),
-                    Category::class => throw new CategoryNotFound('Category not found', Response::HTTP_NOT_FOUND, $e),
-                    default => new Unauthorized('Unauthorized', Response::HTTP_UNAUTHORIZED, $e),
+                    Product::class => throw new CategoryNotFound('Product not found', Response::HTTP_NOT_FOUND, $e),
+                    Category::class => throw new CategoryNotFound(
+                        'Category not found',
+                        Response::HTTP_NOT_FOUND,
+                        $e
+                    ),
+                    default => throw new Unauthorized('Unauthorized', Response::HTTP_UNAUTHORIZED, $e),
                 },
                 default => throw new RouteNotFound('Invalid URI', Response::HTTP_NOT_FOUND, $e),
-            };
-        });
+            },
+        );
     }
 
     private function registerFailedAuthentication(): void
