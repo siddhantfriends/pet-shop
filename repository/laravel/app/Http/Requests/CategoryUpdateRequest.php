@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Exceptions\FailedValidation;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
+use App\Exceptions\FailedValidation;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
 
 class CategoryUpdateRequest extends FormRequest
 {

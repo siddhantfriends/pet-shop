@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
-use App\Models\Category;
 use Exception;
 use App\Models\File;
 use App\Models\User;
+use App\Models\Category;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Validation\UnauthorizedException;

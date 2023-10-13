@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Service\GenerateUUIDService;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
@@ -24,5 +25,10 @@ class Category extends BaseModel
     public function getRouteKeyName(): string
     {
         return 'uuid';
+    }
+
+    public function scopeSortBy(Builder $query, string $column, ?string $direction = 'asc'): void
+    {
+        $query->orderBy($column, $direction);
     }
 }

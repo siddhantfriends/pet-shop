@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Http\JsonResponse;
 use App\Http\Service\CategoryService;
+use App\Http\Requests\CategoryIndexRequest;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
+use App\Http\Resources\CategoryShowResource;
 use App\Http\Resources\CategoryStoreResource;
 use App\Http\Resources\CategoryUpdateResource;
+use App\Http\Resources\CategoryIndexCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CategoryController extends Controller
@@ -15,9 +19,11 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): void
+    public function index(CategoryIndexRequest $request, CategoryService $service): JsonResponse
     {
-        //
+        $response = new CategoryIndexCollection($service->filter($request));
+
+        return response()->json($response->resource);
     }
 
     /**
@@ -32,9 +38,9 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id): void
+    public function show(Category $category): JsonResource
     {
-        //
+        return new CategoryShowResource($category);
     }
 
     /**

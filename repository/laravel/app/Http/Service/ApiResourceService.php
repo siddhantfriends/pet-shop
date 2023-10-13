@@ -3,36 +3,35 @@
 namespace App\Http\Service;
 
 use App\Models\Category;
+use App\Models\BaseModel;
+use Illuminate\Http\Request;
 use App\Http\Contracts\ApiResource;
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Requests\CategoryIndexRequest;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 abstract class ApiResourceService implements ApiResource
 {
-    /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
-     * @param CategoryStoreRequest $request
-     */
-    public function store($request): Category|Model
+    public function store(CategoryStoreRequest|Request $request): Category|Model
     {
         return Model::create($request->all());
     }
 
-    /**
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
-     * @param CategoryUpdateRequest $request
-     * @param Category|Model $model
-     */
-    public function update($request, $model): void
+    public function update(CategoryUpdateRequest|Request $request, Category|Model $model): void
     {
         $model->update($request->all());
     }
 
-    /**
-     */
     public function destroy(Category|Model $model): void
     {
         $model->delete();
+    }
+
+    public function filter(CategoryIndexRequest|Request $request): LengthAwarePaginator
+    {
+        return BaseModel::query()
+            ->paginate(perPage: $request->get('limit', 10));
     }
 }

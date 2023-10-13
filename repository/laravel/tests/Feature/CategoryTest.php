@@ -89,4 +89,37 @@ class CategoryTest extends BaseTestCase
             ->assertJsonMissingValidationErrors()
             ->assertJsonPath('success', 0);
     }
+
+    /**
+     * Can show category without any authorization
+     *
+     * @test
+     */
+    public function can_show_category_without_authorization(): void
+    {
+        $category = Category::factory()->create();
+
+        $response = $this->get(route('category.show', ['category' => $category->uuid]));
+
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertJsonMissingValidationErrors()
+            ->assertJsonPath('success', 1);
+    }
+
+    /**
+     * Can list all categories without authorization.
+     * The list is paginated therefore displaying current page.
+     *
+     * @test
+     */
+    public function can_list_all_categories_without_authorization(): void
+    {
+        Category::factory(20)->create();
+
+        $response = $this->get(route('categories.index'));
+
+        $response->assertStatus(Response::HTTP_OK)
+            ->assertJsonMissingValidationErrors()
+            ->assertJsonPath('current_page', 1);
+    }
 }

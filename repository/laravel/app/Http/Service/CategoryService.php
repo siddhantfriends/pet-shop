@@ -3,9 +3,12 @@
 namespace App\Http\Service;
 
 use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Http\Contracts\ApiResource;
+use App\Http\Requests\CategoryIndexRequest;
 use App\Http\Requests\CategoryStoreRequest;
 use App\Http\Requests\CategoryUpdateRequest;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class CategoryService extends ApiResourceService implements ApiResource
 {
@@ -37,5 +40,16 @@ class CategoryService extends ApiResourceService implements ApiResource
     {
         $category = Category::find($model->id);
         $category->delete();
+    }
+
+    public function filter(CategoryIndexRequest|Request $request): LengthAwarePaginator
+    {
+        return Category::query()
+            ->sortBy(
+                $request->get('sortBy', 'id'),
+                match ($request->get('desc', true)) {
+                    true => 'desc', default => 'asc'
+                },
+            )->paginate(perPage: $request->get('limit', 10));
     }
 }
