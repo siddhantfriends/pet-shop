@@ -5,15 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use App\Http\Service\CategoryService;
-use App\Http\Requests\CategoryIndexRequest;
-use App\Http\Requests\CategoryStoreRequest;
-use App\Http\Requests\CategoryUpdateRequest;
-use App\Http\Resources\CategoryShowResource;
-use App\Http\Resources\CategoryStoreResource;
-use App\Http\Resources\CategoryUpdateResource;
-use App\Http\Resources\CategoryDestroyResource;
-use App\Http\Resources\CategoryIndexCollection;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Requests\Category\CategoryIndexRequest;
+use App\Http\Requests\Category\CategoryStoreRequest;
+use App\Http\Requests\Category\CategoryUpdateRequest;
+use App\Http\Resources\Category\CategoryShowResource;
+use App\Http\Resources\Category\CategoryStoreResource;
+use App\Http\Resources\Category\CategoryUpdateResource;
+use App\Http\Resources\Category\CategoryDestroyResource;
+use App\Http\Resources\Category\CategoryIndexCollection;
 
 class CategoryController extends Controller
 {

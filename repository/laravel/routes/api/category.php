@@ -7,7 +7,8 @@ Route::apiResource('/category', CategoryController::class)->only('show');
 
 Route::apiResource('/category/create', CategoryController::class)
     ->middleware('auth.jwt')
-    ->only('store');
+    ->only('store')
+    ->name('store', 'category.store');
 
 Route::apiResource('/category', CategoryController::class)
     ->middleware('auth.jwt')

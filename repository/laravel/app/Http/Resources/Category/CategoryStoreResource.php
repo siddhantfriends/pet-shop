@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\Category;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryDestroyResource extends JsonResource
+/**
+ * @mixin Category
+ */
+class CategoryStoreResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,6 +20,8 @@ class CategoryDestroyResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return JsonResponse::response($this->resource);
+        return JsonResponse::response([
+            'uuid' => $this->uuid,
+        ]);
     }
 }
